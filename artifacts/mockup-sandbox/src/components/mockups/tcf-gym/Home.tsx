@@ -105,7 +105,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-transparent to-transparent opacity-80"></div>
         </div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full pt-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full pt-36 md:pt-40">
           <div className="max-w-3xl">
             <div className="flex items-center gap-4 mb-6 animate-fade-in-up">
               <div className="h-[2px] w-12 bg-[#E8272A]"></div>
