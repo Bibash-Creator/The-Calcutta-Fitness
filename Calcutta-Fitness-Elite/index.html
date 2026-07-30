@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TCF - The Calcutta Fitness Studio</title>
+  <meta name="description"
+    content="The Calcutta Fitness Studio - Kolkata's premier gym on Jamini Roy Sarani. World-class equipment, elite trainers, strength training, CrossFit, yoga, boxing & more.">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏋️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" style="display:none">
+    <span class="toast-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <polyline points="22 4 12 14.01 9 11.01" />
+    </svg></span>
+    <span class="toast-msg" id="toastMsg"></span>
+    <button class="toast-close" onclick="hideToast()"><svg class="icon-sm" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg></button>
+  </div>
+
+  <!-- Booking Modal -->
+  <div id="bookingModal" class="modal-overlay" style="display:none"
+    onclick="if(event.target===this)closeBookingModal()">
+    <div class="modal-bg"></div>
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeBookingModal()"><svg class="icon" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg></button>
+      <h3 class="modal-title bebas">Book This Slot</h3>
+      <div class="booking-info">
+        <p><span class="class-name" id="bookClass"></span> &bull; <span id="bookTime"></span></p>
+        <p>Trainer: <span class="trainer-name" id="bookTrainer"></span></p>
+      </div>
+      <form class="booking-form" onsubmit="submitBooking(event)">
+        <input type="text" id="bookName" placeholder="Your Name" required>
+        <input type="tel" id="bookPhone" placeholder="Your Phone Number" required>
+        <button type="submit" class="btn-book" id="bookBtn">Confirm Booking</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Policy Modal -->
+  <div id="policyModal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closePolicyModal()">
+    <div class="modal-bg"></div>
+    <div class="modal-content">
+      <button class="modal-close" onclick="closePolicyModal()"><svg class="icon" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg></button>
+      <h3 class="modal-title bebas" id="policyTitle"></h3>
+      <p id="policyText" style="color:#A0A0A0;line-height:1.6;margin-bottom:1.5rem"></p>
+      <button class="btn-modal-close" onclick="closePolicyModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <div class="nav-logo" onclick="scrollToSection('home')">
+        <span class="logo-text bebas">T<span class="text-primary">C</span>F</span>
+        <span class="logo-sub">The Calcutta Fitness</span>
+      </div>
+      <div class="nav-links">
+        <button onclick="scrollToSection('home')">Home</button>
+        <button onclick="scrollToSection('about')">About</button>
+        <button onclick="scrollToSection('classes')">Classes</button>
+        <button onclick="scrollToSection('schedule')">Schedule</button>
+        <button onclick="scrollToSection('trainers')">Trainers</button>
+        <button onclick="scrollToSection('pricing')">Pricing</button>
+        <button onclick="scrollToSection('blog')">Blog</button>
+      </div>
+      <div class="nav-social">
+        <a href="https://instagram.com/tcfchainofgyms22" target="_blank" rel="noreferrer" aria-label="Instagram"><svg
+            class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+          </svg></a>
+        <a href="https://www.facebook.com/tcfplusparkcircus/" target="_blank" rel="noreferrer"
+          aria-label="Facebook"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+          </svg></a>
+        <button class="btn-join" onclick="scrollToSection('contact')"><span>Join Now</span></button>
+      </div>
+      <button class="mobile-toggle" onclick="toggleMobile()" aria-label="Menu">
+        <svg id="menuOpen" style="width:28px;height:28px" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+        <svg id="menuClose" style="width:28px;height:28px;display:none" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <button onclick="scrollToSection('home');closeMobile()">Home</button>
+      <button onclick="scrollToSection('about');closeMobile()">About</button>
+      <button onclick="scrollToSection('classes');closeMobile()">Classes</button>
+      <button onclick="scrollToSection('schedule');closeMobile()">Schedule</button>
+      <button onclick="scrollToSection('trainers');closeMobile()">Trainers</button>
+      <button onclick="scrollToSection('pricing');closeMobile()">Pricing</button>
+      <button onclick="scrollToSection('blog');closeMobile()">Blog</button>
+      <button onclick="scrollToSection('contact');closeMobile()">Contact</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="hero-bg"><img src="./images/tcf-hero.jpg" alt="TCF Gym"></div>
+    <div class="hero-content">
+      <div class="tagline animate-fade-in-up"><span class="bebas text-secondary"
+          style="font-size:1.25rem;letter-spacing:.15em">Kolkata's Elite Training Ground</span></div>
+      <h1 class="bebas animate-fade-in-up delay-100">Forge Your<br><span class="gradient-text">Legacy</span></h1>
+      <p class="animate-fade-in-up delay-200">Raw ambition wrapped in premium infrastructure. For serious athletes and
+        determined beginners ready to forge discipline into results.</p>
+      <div class="hero-buttons animate-fade-in-up delay-300">
+        <button class="btn-hero-primary" onclick="scrollToSection('pricing')"><span>Start Your Journey <svg class="icon-sm"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg></span></button>
+        <button class="btn-hero-secondary" onclick="scrollToSection('classes')"><span><svg class="icon-sm" viewBox="0 0 24 24"
+              fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg> View Classes</span></button>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card stat-card-clip">
+        <h3 class="bebas">2000+</h3>
+        <p>Active Members</p>
+      </div>
+      <div class="stat-card stat-card-clip">
+        <h3 class="bebas">15+</h3>
+        <p>Expert Trainers</p>
+      </div>
+      <div class="stat-card stat-card-clip">
+        <h3 class="bebas">25+</h3>
+        <p>Weekly Classes</p>
+      </div>
+      <div class="stat-card stat-card-clip">
+        <h3 class="bebas">10+</h3>
+        <p>Years Experience</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-img-wrap">
+          <img src="./images/tcf-about.jpg" alt="TCF Training">
+          <div class="about-badge stat-card-clip">
+            <div class="stars"><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg></div>
+            <p>Rated 5 Stars by 500+ Clients</p>
+          </div>
+        </div>
+        <div>
+          <div class="about-tag"><span class="bebas text-primary" style="font-size:1.25rem;letter-spacing:.15em">About
+              TCF</span></div>
+          <h2 class="bebas">More Than a Gym.<br><span class="dim">An Institution.</span></h2>
+          <div class="about-text">
+            <p>Located in the heart of Kolkata on Jamini Roy Sarani, The Calcutta Fitness Studio represents the pinnacle
+              of physical conditioning. We've stripped away the nonsense to focus on what matters: grit, determination,
+              and real results.</p>
+            <p>Whether you're stepping onto the lifting platform for the first time or prepping for your next
+              competition, our world-class infrastructure and elite coaching staff provide the exact environment you
+              need to excel.</p>
+          </div>
+          <div class="about-features">
+            <div class="feat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg><span>World-class Equipment</span></div>
+            <div class="feat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg><span>Certified Elite Trainers</span></div>
+            <div class="feat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg><span>Tailored Nutrition Plans</span></div>
+            <div class="feat"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg><span>Premium Ambience</span></div>
+          </div>
+          <button class="btn-about" onclick="scrollToSection('contact')"><span>Discover More</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TCF Method -->
+  <section class="method">
+    <div class="container method-inner">
+      <h2 class="bebas" style="font-size:clamp(3rem,6vw,4rem);text-align:center">The TCF <span
+          class="text-primary">Method</span></h2>
+      <p class="subtitle">A proven three-step methodology designed to maximize your genetic potential and forge
+        unbreakable discipline.</p>
+      <div class="method-grid">
+        <div class="method-step">
+          <div class="icon-wrap"><svg class="icon-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg></div>
+          <h3 class="bebas" style="font-size:1.875rem">01. Assessment</h3>
+          <p>We analyze your baseline metrics, movement patterns, and specific goals to craft a bespoke roadmap.</p>
+        </div>
+        <div class="method-step">
+          <div class="icon-wrap"><svg class="icon-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <path d="M6.5 6.5h11v11h-11z" />
+              <path d="M6.5 6.5L12 2l5.5 4.5" />
+              <path d="M6.5 17.5L12 22l5.5-4.5" />
+            </svg></div>
+          <h3 class="bebas" style="font-size:1.875rem">02. Execution</h3>
+          <p>Enter the forge. You put in the raw effort under the exact supervision of our elite coaching staff.</p>
+        </div>
+        <div class="method-step">
+          <div class="icon-wrap"><svg class="icon-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg></div>
+          <h3 class="bebas" style="font-size:1.875rem">03. Evolution</h3>
+          <p>We track your metrics, optimize your nutrition, and push you past plateaus to ensure continuous growth.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Classes -->
+  <section id="classes" class="classes">
+    <div class="classes-bg"><img src="./images/tcf-classes-bg.jpg" alt="Classes"></div>
+    <div class="container classes-inner">
+      <div class="classes-header">
+        <div>
+          <div class="classes-tag"><span class="bebas text-primary" style="font-size:1.25rem;letter-spacing:.15em">Our
+              Programs</span></div>
+          <h2 class="bebas" style="font-size:clamp(3rem,7vw,5rem)">Elite <span class="dim">Classes</span></h2>
+        </div>
+        <button onclick="scrollToSection('schedule')"
+          style="display:flex;align-items:center;gap:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:.875rem;color:#fff;background:none;border:none;cursor:pointer"
+          onmouseover="this.style.color='#E8272A'" onmouseout="this.style.color='#fff'">Full Schedule <svg
+            class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg></button>
+      </div>
+      <div class="classes-grid">
+        <div class="class-card" onclick="scrollTo('schedule')"><img src="./images/tcf-hero.jpg" alt="Strength Training">
+          <div class="class-card-info">
+            <div class="class-card-badges"><span class="badge-duration">60 Min</span><span class="badge-level">All
+                Levels</span></div>
+            <h3 class="bebas">Strength Training</h3>
+            <div class="class-card-line"></div>
+          </div>
+        </div>
+        <div class="class-card" onclick="scrollTo('schedule')"><img src="./images/tcf-about.jpg" alt="Cardio Blast">
+          <div class="class-card-info">
+            <div class="class-card-badges"><span class="badge-duration">45 Min</span><span class="badge-level">High
+                Intensity</span></div>
+            <h3 class="bebas">Cardio Blast</h3>
+            <div class="class-card-line"></div>
+          </div>
+        </div>
+        <div class="class-card" onclick="scrollTo('schedule')"><img src="./images/tcf-trainer-4.jpg" alt="Yoga">
+          <div class="class-card-info">
+            <div class="class-card-badges"><span class="badge-duration">60 Min</span><span class="badge-level">Beginner
+                Friendly</span></div>
+            <h3 class="bebas">Yoga & Flexibility</h3>
+            <div class="class-card-line"></div>
+          </div>
+        </div>
+        <div class="class-card" onclick="scrollTo('schedule')"><img src="./images/tcf-classes-bg.jpg" alt="CrossFit">
+          <div class="class-card-info">
+            <div class="class-card-badges"><span class="badge-duration">50 Min</span><span
+                class="badge-level">Advanced</span></div>
+            <h3 class="bebas">CrossFit</h3>
+            <div class="class-card-line"></div>
+          </div>
+        </div>
+        <div class="class-card" onclick="scrollTo('schedule')"><img src="./images/tcf-hero.jpg" alt="Zumba">
+          <div class="class-card-info">
+            <div class="class-card-badges"><span class="badge-duration">45 Min</span><span class="badge-level">All
+                Levels</span></div>
+            <h3 class="bebas">Zumba Dance</h3>
+            <div class="class-card-line"></div>
+          </div>
+        </div>
+        <div class="class-card" onclick="scrollTo('schedule')"><img src="./images/tcf-trainer-3.jpg" alt="Boxing">
+          <div class="class-card-info">
+            <div class="class-card-badges"><span class="badge-duration">90 Min</span><span
+                class="badge-level">Intermediate</span></div>
+            <h3 class="bebas">Boxing & MMA</h3>
+            <div class="class-card-line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BMI -->
+  <section class="bmi">
+    <div class="container">
+      <div class="bmi-grid">
+        <div>
+          <h2 class="bebas" style="font-size:clamp(3rem,6vw,4rem)">Calculate Your <span
+              class="text-primary">Baseline</span></h2>
+          <p class="bmi-desc">Understanding your current physical state is the first step toward forging a better one.
+          </p>
+          <div class="bmi-result" id="bmiResult">
+            <div class="bmi-result-header">
+              <div>
+                <p class="label">Your BMI Score</p>
+                <h3 class="bebas" id="bmiValue" style="color:#fff"></h3>
+              </div>
+              <div class="category" id="bmiCategory"></div>
+            </div>
+            <p id="bmiMessage"></p>
+          </div>
+        </div>
+        <div class="bmi-form-wrap">
+          <form class="bmi-form" onsubmit="calcBMI(event)">
+            <div class="form-row">
+              <div class="form-group"><label for="bmiW">Weight / kg</label><input type="number" id="bmiW" required
+                  placeholder="0.00" min="1" max="500" step="0.1"></div>
+              <div class="form-group"><label for="bmiH">Height / cm</label><input type="number" id="bmiH" required
+                  placeholder="0.00" min="50" max="300" step="0.1"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label for="bmiA">Age</label><input type="number" id="bmiA" required placeholder="0" min="1" max="120"></div>
+              <div class="form-group"><label for="bmiS">Sex</label><select id="bmiS" aria-label="Select sex">
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select></div>
+            </div>
+            <button type="submit" class="btn-bmi">Calculate BMI</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schedule -->
+  <section id="schedule" class="schedule">
+    <div class="container">
+      <h2 class="bebas" style="font-size:clamp(3rem,7vw,5rem);text-align:center">Training <span
+          class="text-primary">Schedule</span></h2>
+      <div class="schedule-days" id="scheduleDays"></div>
+      <div class="schedule-table" id="scheduleTable"></div>
+    </div>
+  </section>
+
+  <!-- Trainers -->
+  <section id="trainers" class="trainers">
+    <div class="container">
+      <h2 class="bebas" style="font-size:clamp(3rem,7vw,5rem);text-align:center">Elite <span
+          class="text-primary">Coaching</span></h2>
+      <p class="subtitle">Our trainers aren't just certified; they are seasoned athletes dedicated to extracting your
+        absolute best.</p>
+      <div class="trainers-grid">
+        <div class="trainer-card">
+          <div class="trainer-img-wrap"><img src="./images/tcf-trainer-3.jpg" alt="Arjun Das">
+            <div class="trainer-social"><a href="https://instagram.com/tcfchainofgyms22" target="_blank"
+                rel="noreferrer"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg></a></div>
+          </div>
+          <div class="trainer-info">
+            <h3 class="bebas">Arjun Das</h3>
+            <p class="role">Head Strength Coach</p>
+            <p class="exp">Experience: 12 Years</p>
+          </div>
+        </div>
+        <div class="trainer-card">
+          <div class="trainer-img-wrap"><img src="./images/tcf-trainer-4.jpg" alt="Priya Sen">
+            <div class="trainer-social"><a href="https://instagram.com/tcfchainofgyms22" target="_blank"
+                rel="noreferrer"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg></a></div>
+          </div>
+          <div class="trainer-info">
+            <h3 class="bebas">Priya Sen</h3>
+            <p class="role">Yoga & Mobility</p>
+            <p class="exp">Experience: 8 Years</p>
+          </div>
+        </div>
+        <div class="trainer-card">
+          <div class="trainer-img-wrap"><img src="./images/tcf-trainer-1.jpg" alt="Vikram Singh">
+            <div class="trainer-social"><a href="https://instagram.com/tcfchainofgyms22" target="_blank"
+                rel="noreferrer"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg></a></div>
+          </div>
+          <div class="trainer-info">
+            <h3 class="bebas">Vikram Singh</h3>
+            <p class="role">CrossFit Specialist</p>
+            <p class="exp">Experience: 10 Years</p>
+          </div>
+        </div>
+        <div class="trainer-card">
+          <div class="trainer-img-wrap"><img src="./images/tcf-trainer-2.jpg" alt="Neha Roy">
+            <div class="trainer-social"><a href="https://instagram.com/tcfchainofgyms22" target="_blank"
+                rel="noreferrer"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg></a></div>
+          </div>
+          <div class="trainer-info">
+            <h3 class="bebas">Neha Roy</h3>
+            <p class="role">HIIT & Nutrition</p>
+            <p class="exp">Experience: 6 Years</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="pricing">
+    <div class="container">
+      <div class="pricing-header">
+        <div>
+          <div class="pricing-tag"><span class="bebas text-primary"
+              style="font-size:1.25rem;letter-spacing:.15em">Memberships</span></div>
+          <h2 class="bebas" style="font-size:clamp(3rem,7vw,5rem)">Choose Your <span class="dim">Path</span></h2>
+        </div>
+        <div class="pricing-toggle">
+          <button class="active" id="monthlyBtn" onclick="setPricing(false)">Monthly</button>
+          <button id="annualBtn" onclick="setPricing(true)">Annually <span class="save-badge">Save 20%</span></button>
+        </div>
+      </div>
+      <div class="pricing-grid" id="pricingGrid"></div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section id="blog" class="blog">
+    <div class="container">
+      <div class="blog-header">
+        <h2 class="bebas" style="font-size:clamp(3rem,7vw,5rem)">Intel & <span class="text-primary">Insights</span></h2>
+        <button onclick="showToast('Blog coming soon! Follow our Instagram for updates.', 'success')"
+          style="display:flex;align-items:center;gap:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:.875rem;color:#fff;background:none;border:none;cursor:pointer"
+          onmouseover="this.style.color='#E8272A'" onmouseout="this.style.color='#fff'">View All <svg class="icon-sm"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg></button>
+      </div>
+      <div class="blog-grid">
+        <div class="blog-card" onclick="showToast('Full article coming soon!')">
+          <div class="blog-card-img"><img src="./images/tcf-blog.jpg" alt="Blog"><span
+              class="cat-badge">Nutrition</span></div>
+          <p class="date"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg> OCT 12, 2024</p>
+          <h3>Optimizing Macros for Heavy Lifting Days</h3>
+          <div class="blog-card-line"></div>
+        </div>
+        <div class="blog-card" onclick="showToast('Full article coming soon!')">
+          <div class="blog-card-img"><img src="./images/tcf-classes-bg.jpg" alt="Blog"><span
+              class="cat-badge">Mindset</span></div>
+          <p class="date"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg> SEP 28, 2024</p>
+          <h3>The Psychology of Breaking Plateaus</h3>
+          <div class="blog-card-line"></div>
+        </div>
+        <div class="blog-card" onclick="showToast('Full article coming soon!')">
+          <div class="blog-card-img"><img src="./images/tcf-hero.jpg" alt="Blog"><span class="cat-badge">Recovery</span>
+          </div>
+          <p class="date"><svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg> SEP 15, 2024</p>
+          <h3>Recovery Protocols Used by Pro Athletes</h3>
+          <div class="blog-card-line"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="bebas" style="font-size:clamp(3rem,7vw,5rem);text-align:center">Client <span
+          class="text-primary">Legacies</span></h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card stat-card-clip"><svg class="icon-xxl quote-icon" viewBox="0 0 24 24"
+            fill="currentColor">
+            <path
+              d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+            <path
+              d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+          </svg>
+          <div class="stars"><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg></div>
+          <p class="quote-text">"The coaching at TCF is unlike anything in Kolkata. They didn't just change my body;
+            they forged my mindset."</p>
+          <div class="author">
+            <div class="author-avatar">R</div>
+            <div>
+              <h4 class="author-name">Rahul S.</h4>
+              <p class="author-role">Amateur Boxer</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card stat-card-clip"><svg class="icon-xxl quote-icon" viewBox="0 0 24 24"
+            fill="currentColor">
+            <path
+              d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+            <path
+              d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+          </svg>
+          <div class="stars"><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg></div>
+          <p class="quote-text">"I struggled with consistency for years. The environment here demands greatness, and you
+            eventually rise to meet it. 15kg down and counting."</p>
+          <div class="author">
+            <div class="author-avatar">A</div>
+            <div>
+              <h4 class="author-name">Ananya M.</h4>
+              <p class="author-role">Working Professional</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card stat-card-clip"><svg class="icon-xxl quote-icon" viewBox="0 0 24 24"
+            fill="currentColor">
+            <path
+              d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+            <path
+              d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+          </svg>
+          <div class="stars"><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg><svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg></div>
+          <p class="quote-text">"Premium equipment, raw atmosphere. If you are serious about lifting heavy, this is the
+            only studio in the city that matters."</p>
+          <div class="author">
+            <div class="author-avatar">K</div>
+            <div>
+              <h4 class="author-name">Karthik D.</h4>
+              <p class="author-role">Powerlifter</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <div class="contact-tag"><span class="bebas text-primary" style="font-size:1.25rem;letter-spacing:.15em">Get
+              In Touch</span></div>
+          <h2 class="bebas" style="font-size:clamp(3rem,7vw,5rem)">Start Your<br>Transformation</h2>
+          <div class="contact-info">
+            <div class="contact-info-item">
+              <div class="contact-info-icon"><svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg></div>
+              <div>
+                <h4>Location</h4><a href="https://maps.google.com/?q=Jamini+Roy+Sarani+Kolkata+700019" target="_blank"
+                  rel="noreferrer">Jamini Roy Sarani, Kolkata,<br>West Bengal 700019</a>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon"><svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg></div>
+              <div>
+                <h4>Phone</h4><a href="tel:+919073905215" class="phone-link">+91 90739 05215</a>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon"><svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg></div>
+              <div>
+                <h4>Email</h4><a href="mailto:info@calcuttafitness.com">info@calcuttafitness.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form-wrap">
+          <h3 class="bebas">Send a Message</h3>
+          <form class="contact-form" onsubmit="submitContact(event)" novalidate>
+            <div class="contact-form-row">
+              <div class="form-group"><label for="cName">Name</label><input type="text" id="cName" placeholder="YOUR NAME"><span
+                  class="error-msg" id="cNameErr"></span></div>
+              <div class="form-group"><label for="cPhone">Phone</label><input type="tel" id="cPhone" placeholder="YOUR PHONE"><span
+                  class="error-msg" id="cPhoneErr"></span></div>
+            </div>
+            <div class="form-group"><label for="cEmail">Email</label><input type="email" id="cEmail" placeholder="YOUR EMAIL"><span
+                class="error-msg" id="cEmailErr"></span></div>
+            <div class="form-group"><label for="cMsg">Message</label><textarea id="cMsg" rows="4"
+                placeholder="HOW CAN WE HELP YOU?"></textarea><span class="error-msg" id="cMsgErr"></span></div>
+            <button type="submit" class="btn-contact" id="contactBtn">Send Message <svg class="icon-sm"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg></button>
+          </form>
+        </div>
+      </div>
+      <div class="map-wrap">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3684.5097449553535!2d88.35623067605917!3d22.56011933342371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0277a0b3ffcf6d%3A0xc3bb9910d5ab9bf8!2sJamini%20Roy%20Sarani%2C%20Kolkata%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1715421350000!5m2!1sen!2sin"
+          width="100%" height="400" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="TCF Location"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="logo-text bebas" style="font-size:3rem">T<span class="text-primary">C</span>F</span>
+          <p>The Calcutta Fitness Studio.<br>Kolkata's elite training ground for those who demand more from themselves.
+          </p>
+          <div class="footer-social">
+            <a href="https://instagram.com/tcfchainofgyms22" target="_blank" rel="noreferrer"
+              aria-label="Instagram"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg></a>
+            <a href="https://www.facebook.com/tcfplusparkcircus/" target="_blank" rel="noreferrer"
+              aria-label="Facebook"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+              </svg></a>
+            <a href="tel:+919073905215" aria-label="Call"><svg class="icon" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg></a>
+            <a href="mailto:info@calcuttafitness.com" aria-label="Email"><svg class="icon" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="bebas">Quick Links</h4>
+          <ul>
+            <li><button onclick="scrollToSection('home')">Home</button></li>
+            <li><button onclick="scrollToSection('about')">About Us</button></li>
+            <li><button onclick="scrollToSection('trainers')">Trainers</button></li>
+            <li><button onclick="scrollToSection('pricing')">Pricing</button></li>
+            <li><button onclick="scrollToSection('blog')">Blog</button></li>
+            <li><button onclick="scrollToSection('contact')">Contact</button></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="bebas">Programs</h4>
+          <ul>
+            <li><button onclick="scrollToSection('classes')">Strength Training</button></li>
+            <li><button onclick="scrollToSection('classes')">Cardio Blast</button></li>
+            <li><button onclick="scrollToSection('classes')">CrossFit</button></li>
+            <li><button onclick="scrollToSection('classes')">Yoga & Flexibility</button></li>
+            <li><button onclick="scrollToSection('classes')">Boxing</button></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="bebas">Working Hours</h4>
+          <ul class="footer-hours">
+            <li><span>Mon - Fri</span><span>06:00 - 22:00</span></li>
+            <li><span>Saturday</span><span>08:00 - 20:00</span></li>
+            <li><span>Sunday</span><span class="closed">Closed</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> The Calcutta Fitness Studio. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <button onclick="showPolicy('Privacy Policy')">Privacy Policy</button>
+          <button onclick="showPolicy('Terms of Service')">Terms of Service</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp -->
+  <a href="https://wa.me/919073905215" target="_blank" rel="noopener noreferrer" class="whatsapp-btn"
+    aria-label="Chat on WhatsApp">
+    <span class="wa-ring wa-ring-1"></span>
+    <span class="wa-ring wa-ring-2"></span>
+    <span class="wa-face"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"
+        fill="white">
+        <path
+          d="M16.003 2.667C8.637 2.667 2.667 8.636 2.667 16c0 2.363.637 4.594 1.75 6.527L2.667 29.333l7.01-1.727A13.27 13.27 0 0 0 16.003 29.333C23.37 29.333 29.333 23.363 29.333 16S23.37 2.667 16.003 2.667zm0 2.4c5.96 0 10.93 4.97 10.93 10.933 0 5.963-4.97 10.933-10.93 10.933a10.89 10.89 0 0 1-5.54-1.507l-.397-.24-4.16 1.027 1.067-3.96-.267-.41A10.878 10.878 0 0 1 5.07 16c0-5.963 4.97-10.933 10.933-10.933zm-3.32 5.6c-.2 0-.52.075-.793.373-.274.3-1.04 1.017-1.04 2.48s1.064 2.877 1.213 3.077c.15.2 2.07 3.16 5.027 4.307 2.957 1.147 2.957.763 3.49.713.533-.05 1.72-.703 1.963-1.38.24-.676.24-1.256.168-1.38-.073-.123-.273-.197-.573-.347-.3-.15-1.72-.847-1.987-.943-.267-.1-.46-.15-.653.15-.193.3-.747.943-.913 1.14-.167.196-.333.22-.633.073-.3-.148-1.267-.467-2.413-1.487-.893-.793-1.497-1.773-1.673-2.073-.177-.3-.02-.463.133-.613.137-.133.3-.347.45-.52.15-.174.2-.3.3-.5.1-.2.05-.373-.025-.523-.075-.15-.653-1.58-.897-2.16-.237-.567-.477-.49-.653-.5-.168-.008-.363-.01-.557-.01z" />
+      </svg></span>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
