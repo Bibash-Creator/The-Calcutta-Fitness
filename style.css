@@ -2653,6 +2653,33 @@ select {
         transform: none;
     }
 
+    /* Pricing toggle & header mobile layout */
+    .pricing-header {
+        align-items: flex-start;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .pricing-toggle {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .pricing-toggle button {
+        flex: 1;
+        padding: 0.625rem 0.5rem;
+        font-size: 0.8rem;
+        text-align: center;
+    }
+
+    .pricing-card {
+        padding: 1.75rem 1.5rem;
+    }
+
+    .pricing-card .price-row .amount {
+        font-size: 3rem;
+    }
+
     /* Blog header row – stack on mobile */
     .blog-header {
         flex-direction: column;
@@ -2789,6 +2816,28 @@ select {
         grid-template-columns: 1fr;
     }
 
+    .pricing-card {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .pricing-card h3 {
+        font-size: 2rem;
+    }
+
+    .pricing-card .desc {
+        height: auto;
+        margin-bottom: 1.5rem;
+    }
+
+    .pricing-card .price-row {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .pricing-card .price-row .amount {
+        font-size: 2.5rem;
+    }
+
     /* Contact form row – 1 col */
     .contact-form-row {
         grid-template-columns: 1fr;
@@ -2798,6 +2847,7 @@ select {
     .classes h2,
     .schedule h2,
     .trainers h2,
+    .pricing h2,
     .blog h2,
     .testimonials h2,
     .contact h2 {
