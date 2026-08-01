@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var toastTimer;
 
     var successIconSVG = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
-    var errorIconSVG   = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+    var errorIconSVG = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
 
     function showToast(msg, type) {
         type = type || 'success';
@@ -111,8 +111,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // ─── BMI Calculator ───
     function calcBMI(e) {
         e.preventDefault();
-        var w   = parseFloat(document.getElementById('bmiW').value);
-        var h   = parseFloat(document.getElementById('bmiH').value) / 100;
+        var w = parseFloat(document.getElementById('bmiW').value);
+        var h = parseFloat(document.getElementById('bmiH').value) / 100;
         var age = parseInt(document.getElementById('bmiA').value, 10);
         var sex = document.getElementById('bmiS').value;
 
@@ -121,34 +121,34 @@ document.addEventListener('DOMContentLoaded', function () {
             var cat = '', color = '', msg = '';
 
             if (bmi < 18.5) {
-                cat   = 'Underweight';
+                cat = 'Underweight';
                 color = '#F5A623';
-                msg   = sex === 'female'
+                msg = sex === 'female'
                     ? 'Building lean muscle mass is key. Our female strength coaches will design the perfect hypertrophy program for your body type.'
                     : 'You need to build solid mass. Our strength coaches can construct the perfect bulk program for your age and goals.';
             } else if (bmi < 24.9) {
-                cat   = 'Optimal';
+                cat = 'Optimal';
                 color = '#22c55e';
-                msg   = age < 30
+                msg = age < 30
                     ? 'Excellent baseline. Time to focus on performance, strength, and peak athletic conditioning.'
                     : 'Great shape for your age. Focus on strength maintenance, mobility, and performance optimisation.';
             } else if (bmi < 29.9) {
-                cat   = 'Overweight';
+                cat = 'Overweight';
                 color = '#F5A623';
-                msg   = sex === 'female'
+                msg = sex === 'female'
                     ? 'A perfect starting point for a cutting phase. Our HIIT and yoga programs are tailored for you.'
                     : 'A perfect starting point for a cutting phase. Join our high-intensity programs and watch the results.';
             } else {
-                cat   = 'Obese';
+                cat = 'Obese';
                 color = '#E8272A';
-                msg   = 'The hardest step is starting. We have the expertise to guide your complete transformation — safely and effectively.';
+                msg = 'The hardest step is starting. We have the expertise to guide your complete transformation — safely and effectively.';
             }
 
             document.getElementById('bmiValue').textContent = bmi.toFixed(1);
             var catEl = document.getElementById('bmiCategory');
-            catEl.textContent       = cat;
+            catEl.textContent = cat;
             catEl.style.borderColor = color;
-            catEl.style.color       = color;
+            catEl.style.color = color;
             document.getElementById('bmiMessage').textContent = msg;
             document.getElementById('bmiResult').classList.add('show');
         }
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.calcBMI = calcBMI;
 
     // ─── Schedule ───
-    var days      = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var activeDay = 'Monday';
 
     function renderScheduleDays() {
@@ -177,23 +177,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function generateSchedule(day) {
         return [
-            { time: '06:00 - 07:00 AM', cls: 'Strength Training',                                       trainer: 'Arjun Das',    type: 'Weights'   },
-            { time: '08:00 - 09:00 AM', cls: (day === 'Tuesday' || day === 'Thursday') ? 'CrossFit' : 'Yoga & Flex', trainer: 'Priya Sen',    type: 'Endurance' },
-            { time: '05:30 - 06:30 PM', cls: 'Cardio Blast',                                             trainer: 'Neha Roy',     type: 'Cardio'    },
-            { time: '07:30 - 09:00 PM', cls: 'Boxing & MMA',                                             trainer: 'Vikram Singh', type: 'Combat'    }
+            { time: '06:00 - 07:00 AM', cls: 'Strength Training', trainer: 'Arjun Das', type: 'Weights' },
+            { time: '08:00 - 09:00 AM', cls: (day === 'Tuesday' || day === 'Thursday') ? 'CrossFit' : 'Yoga & Flex', trainer: 'Priya Sen', type: 'Endurance' },
+            { time: '05:30 - 06:30 PM', cls: 'Cardio Blast', trainer: 'Neha Roy', type: 'Cardio' },
+            { time: '07:30 - 09:00 PM', cls: 'Boxing & MMA', trainer: 'Vikram Singh', type: 'Combat' }
         ];
     }
 
     function renderScheduleTable() {
         var container = document.getElementById('scheduleTable');
-        var slots     = generateSchedule(activeDay);
+        var slots = generateSchedule(activeDay);
         container.innerHTML = '';
         slots.forEach(function (slot) {
-            var div       = document.createElement('div');
+            var div = document.createElement('div');
             div.className = 'schedule-slot';
             div.innerHTML =
-                '<div class="time"><p class="bebas">'  + slot.time + '</p></div>' +
-                '<div class="class-info"><h4>'         + slot.cls  + '</h4><span class="type-badge">' + slot.type + '</span></div>' +
+                '<div class="time"><p class="bebas">' + slot.time + '</p></div>' +
+                '<div class="class-info"><h4>' + slot.cls + '</h4><span class="type-badge">' + slot.type + '</span></div>' +
                 '<div class="trainer"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>' + slot.trainer + '</span></div>' +
                 '<button class="book-btn" onclick="openBooking(\'' + slot.cls + '\',\'' + slot.time + '\',\'' + slot.trainer + '\')">Book Slot</button>';
             container.appendChild(div);
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function setPricing(annual) {
         isAnnual = annual;
         document.getElementById('monthlyBtn').className = annual ? '' : 'active';
-        document.getElementById('annualBtn').className  = annual ? 'active' : '';
+        document.getElementById('annualBtn').className = annual ? 'active' : '';
         renderPricing();
     }
 
@@ -253,9 +253,9 @@ document.addEventListener('DOMContentLoaded', function () {
         container.innerHTML = '';
         plans.forEach(function (plan) {
             var isSelected = (plan.name === selectedPlanName);
-            var card       = document.createElement('div');
+            var card = document.createElement('div');
             card.className = 'pricing-card' + (isSelected ? ' popular' : '');
-            card.onclick   = function () { selectPlan(plan.name); };
+            card.onclick = function () { selectPlan(plan.name); };
 
             var featuresHtml = '';
             plan.features.forEach(function (f) {
@@ -266,10 +266,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             card.innerHTML =
                 '<div class="popular-badge"' + (isSelected ? '' : ' style="opacity: 0.6; background: rgba(255,255,255,0.15); color: #ccc;"') + '>' + badgeText + '</div>' +
-                '<h3 class="bebas">'       + plan.name + '</h3>' +
-                '<p class="desc">'         + plan.desc + '</p>' +
+                '<h3 class="bebas">' + plan.name + '</h3>' +
+                '<p class="desc">' + plan.desc + '</p>' +
                 '<div class="price-row"><span class="currency">&#8377;</span><span class="amount bebas">' + plan.price.toLocaleString('en-IN') + '</span><span class="period">' + plan.period + '</span></div>' +
-                '<ul class="features">'   + featuresHtml + '</ul>' +
+                '<ul class="features">' + featuresHtml + '</ul>' +
                 '<button class="btn-pricing" onclick="joinPlan(\'' + plan.name + '\', event)">' + (isSelected ? 'Join ' + plan.name : 'Select ' + plan.name) + '</button>';
             container.appendChild(card);
         });
@@ -282,19 +282,18 @@ document.addEventListener('DOMContentLoaded', function () {
         scrollToSection('contact');
         showToast(name + ' plan selected! Fill in the form below to get started.');
     }
-
     renderPricing();
-    window.setPricing  = setPricing;
-    window.selectPlan  = selectPlan;
-    window.joinPlan    = joinPlan;
+    window.setPricing = setPricing;
+    window.selectPlan = selectPlan;
+    window.joinPlan = joinPlan;
 
     // ─── Contact Form ───
     function submitContact(e) {
         e.preventDefault();
-        var name  = document.getElementById('cName').value.trim();
+        var name = document.getElementById('cName').value.trim();
         var phone = document.getElementById('cPhone').value.trim();
         var email = document.getElementById('cEmail').value.trim();
-        var msg   = document.getElementById('cMsg').value.trim();
+        var msg = document.getElementById('cMsg').value.trim();
         var valid = true;
 
         // Clear previous errors
@@ -339,15 +338,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var btn = document.getElementById('contactBtn');
         btn.innerHTML = '<div class="spinner"></div> Sending...';
-        btn.disabled  = true;
+        btn.disabled = true;
 
         setTimeout(function () {
             btn.innerHTML = 'Send Message <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
-            btn.disabled  = false;
-            document.getElementById('cName').value  = '';
+            btn.disabled = false;
+            document.getElementById('cName').value = '';
             document.getElementById('cPhone').value = '';
             document.getElementById('cEmail').value = '';
-            document.getElementById('cMsg').value   = '';
+            document.getElementById('cMsg').value = '';
             showToast('Message sent! We\'ll get back to you within 24 hours.');
         }, 1200);
     }

@@ -407,16 +407,18 @@ select {
 
 .hero-content .tagline {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.625rem;
     margin-bottom: 1.5rem;
 }
 
 .hero-content .tagline::before {
     content: '';
-    height: 2px;
-    width: 3rem;
+    height: 3px;
+    width: 3.5rem;
     background: #E8272A;
+    border-radius: 2px;
 }
 
 .hero-content h1 {
