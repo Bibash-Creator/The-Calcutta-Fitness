@@ -2806,9 +2806,14 @@ select {
         grid-template-columns: 1fr;
     }
 
-    /* Trainer card height */
+    /* Trainer card height & image wrap on mobile */
     .trainer-card {
+        height: auto !important;
+    }
+
+    .trainer-img-wrap {
         height: 320px;
+        margin-bottom: 1rem;
     }
 
     /* Pricing grid – 1 col */
