@@ -853,9 +853,9 @@ select {
 .classes-header {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 4rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 3rem;
     gap: 1.5rem;
 }
 
@@ -863,6 +863,7 @@ select {
     .classes-header {
         flex-direction: row;
         align-items: flex-end;
+        justify-content: space-between;
     }
 }
 
@@ -1481,16 +1482,17 @@ select {
 .pricing-header {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 4rem;
-    gap: 2rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 3rem;
+    gap: 1.5rem;
 }
 
 @media (min-width: 768px) {
     .pricing-header {
         flex-direction: row;
         align-items: flex-end;
+        justify-content: space-between;
     }
 }
 
@@ -1717,9 +1719,9 @@ select {
 .blog-header {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 4rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 3rem;
     gap: 1.5rem;
 }
 
@@ -1727,6 +1729,7 @@ select {
     .blog-header {
         flex-direction: row;
         align-items: flex-end;
+        justify-content: space-between;
     }
 }
 
