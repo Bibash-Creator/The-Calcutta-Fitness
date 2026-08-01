@@ -40,5 +40,5 @@ npm run preview
 ## Contact
 
 - **Address:** Jamini Roy Sarani, Kolkata, West Bengal 700019
-- **Phone:** 09073905215
+- **Phone:** +91 79806 52297
 - **Instagram:** [@tcfchainofgyms22](https://instagram.com/tcfchainofgyms22)
