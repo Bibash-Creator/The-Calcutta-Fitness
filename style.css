@@ -2703,10 +2703,22 @@ select {
         gap: 1rem;
     }
 
-    /* Footer grid – 1 col on mobile */
+    /* Footer grid & nav columns layout */
     .footer-grid {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 2.5rem;
+    }
+
+    .footer-nav-cols {
+        grid-template-columns: 1fr 1.35fr;
+        gap: 0.75rem;
+    }
+
+    .footer-nav-cols ul li button,
+    .footer-nav-cols ul li a {
+        white-space: nowrap;
+        font-size: clamp(0.72rem, 2.7vw, 0.85rem);
+        letter-spacing: 0.02em;
     }
 
     /* Toast – full-width at bottom on mobile */
