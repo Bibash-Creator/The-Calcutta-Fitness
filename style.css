@@ -2578,3 +2578,235 @@ select {
     width: 60px;
     height: 60px;
 }
+
+/* ═══════════════════════════════════════════════
+   MOBILE RESPONSIVE OVERRIDES
+   ═══════════════════════════════════════════════ */
+
+/* ─── Tablet & below (≤ 768px) ─── */
+@media (max-width: 768px) {
+
+    /* Sections */
+    .about,
+    .classes,
+    .schedule,
+    .trainers,
+    .pricing,
+    .blog,
+    .testimonials,
+    .contact {
+        padding: 4rem 0;
+    }
+
+    /* About image – reduce height on mobile */
+    .about-img-wrap img {
+        height: 320px;
+    }
+
+    /* About badge overlapping image – hide on mobile to avoid clip */
+    .about-badge {
+        display: none;
+    }
+
+    /* Booking modal – full-width on mobile */
+    .booking-modal-content,
+    .modal-content {
+        width: 95%;
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    /* Schedule days – wrap horizontally */
+    .schedule-days {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .schedule-days button {
+        flex: 1 1 calc(33.33% - 0.5rem);
+        min-width: 80px;
+        font-size: 0.8rem;
+        padding: 0.6rem 0.5rem;
+    }
+
+    /* Schedule slot book-btn – full width on mobile */
+    .schedule-slot .book-btn {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 0.75rem;
+    }
+
+    /* BMI grid – stack on mobile */
+    .bmi-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    /* Pricing card – full height, no lift on mobile */
+    .pricing-card.popular {
+        transform: none;
+    }
+
+    /* Blog header row – stack on mobile */
+    .blog-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    /* Blog grid – 1 col on mobile */
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Testimonials grid – 1 col on mobile */
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Contact info items spacing */
+    .contact-info-item {
+        gap: 1rem;
+    }
+
+    /* Footer grid – 1 col on mobile */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    /* Toast – full-width at bottom on mobile */
+    .toast {
+        left: 1rem;
+        right: 1rem;
+        bottom: 5rem;
+        top: auto;
+        min-width: unset;
+        width: auto;
+    }
+
+    /* WhatsApp button – smaller on mobile */
+    .whatsapp-btn {
+        width: 3.25rem;
+        height: 3.25rem;
+        bottom: 1.25rem;
+        right: 1.25rem;
+    }
+
+    /* Map wrap – reduced height on mobile */
+    .map-wrap {
+        height: 280px;
+    }
+}
+
+/* ─── Small mobile (≤ 480px) ─── */
+@media (max-width: 480px) {
+
+    /* Navbar */
+    .nav-logo .logo-text {
+        font-size: 1.75rem;
+    }
+
+    /* Hero heading clamp floor – already clamps via clamp() */
+    .hero-content h1 {
+        font-size: clamp(2.8rem, 14vw, 9rem);
+    }
+
+    .hero-content p {
+        font-size: 0.95rem;
+    }
+
+    /* Hero buttons – full width on small screens */
+    .btn-hero-primary,
+    .btn-hero-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Stats grid – 1 col on very small screens */
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Stat numbers */
+    .stat-card .number {
+        font-size: 2.5rem;
+    }
+
+    /* About text slightly smaller */
+    .about-text {
+        font-size: 1rem;
+    }
+
+    /* Classes grid – 1 col */
+    .classes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Class card smaller height */
+    .class-card {
+        height: 280px;
+    }
+
+    /* Schedule days – 2 per row */
+    .schedule-days button {
+        flex: 1 1 calc(50% - 0.5rem);
+    }
+
+    /* BMI form rows – 1 col */
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    /* Trainers grid – 1 col */
+    .trainers-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Trainer card height */
+    .trainer-card {
+        height: 320px;
+    }
+
+    /* Pricing grid – 1 col */
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Contact form row – 1 col */
+    .contact-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    /* Section headings smaller */
+    .classes h2,
+    .schedule h2,
+    .trainers h2,
+    .blog h2,
+    .testimonials h2,
+    .contact h2 {
+        font-size: clamp(2.5rem, 10vw, 5rem);
+    }
+
+    /* Modal padding */
+    .booking-modal-content,
+    .modal-content {
+        padding: 1.25rem;
+    }
+
+    /* Footer brand logo */
+    .footer-brand .logo-text {
+        font-size: 2rem;
+    }
+
+    /* Footer bottom – center everything */
+    .footer-bottom {
+        text-align: center;
+    }
+
+    .footer-bottom-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+}
